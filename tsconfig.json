@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "allowJs": false,
+    "rootDir": "src",
+    "outDir": "build",
+    "inlineSources": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "root": [
+        "src/ts"
+      ],
+      "models": [
+        "src/ts/models"
+      ],
+      "utils": [
+        "src/ts/utils"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./@types/**/*.d.ts"
+  ],
+  "typeRoots": [
+    "./node_modules/@types"
+  ]
+}
