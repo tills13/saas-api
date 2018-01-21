@@ -8,7 +8,7 @@ export interface SnakeInterface extends Sequelize.Instance<{}> {
   id: string
   defaultColor: string
   devUrl: string
-  head: File
+  head: FileInterface
   headImageUrl: string
   isBountySnake?: boolean
   bountyDescription: string
