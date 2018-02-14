@@ -21,13 +21,17 @@ export const createUserMutation = mutationWithClientMutationId({
     user: { type: UserType }
   },
   mutateAndGetPayload: async ({ createUserInput }, context, info) => {
-    const { id, username, email, password: mPassword, confirmPassword } = createUserInput
+    const { username, email, password: mPassword, confirmPassword } = createUserInput
 
     if (mPassword !== confirmPassword) throw new Error("Passwords do not match")
 
     const password = await hashPassword(mPassword)
 
-    const user = await models.User.create({ id, username, password, email }).then(async (user) => {
+    const exists = await models.User.findOne({ where: { $or: [{ email }, { username }] } }) !== null
+
+    if (exists) throw new Error("User already exists...")
+
+    const user = await models.User.create({ id: uuid.v4(), username, password, email }).then(async (user) => {
       const gettingStartedMedal = await models.Medal.findById(REGISTERED_MEDAL)
 
       await user.addMedal(gettingStartedMedal)

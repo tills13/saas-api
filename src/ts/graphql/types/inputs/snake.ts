@@ -9,11 +9,12 @@ import {
   GraphQLString
 } from "graphql"
 
-import { VisibilityEnum } from "../../types"
+import { APIVersionEnum, VisibilityEnum } from "../../types"
 
 export const SnakeInput = new GraphQLInputObjectType({
   name: "SnakeInput",
   fields: {
+    apiVersion: { type: APIVersionEnum },
     bountyDescription: { type: GraphQLString },
     defaultColor: {
       type: new GraphQLNonNull(GraphQLString)
@@ -21,7 +22,6 @@ export const SnakeInput = new GraphQLInputObjectType({
     devUrl: { type: GraphQLString },
     headId: { type: GraphQLID },
     isBountySnake: { type: GraphQLBoolean },
-    isLegacy: { type: GraphQLBoolean },
     name: {
       type: new GraphQLNonNull(GraphQLString)
     },

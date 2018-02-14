@@ -30,7 +30,7 @@ export class Server {
   port: number
   server: HttpServer
 
-  constructor(config: ServerConfig) {
+  constructor (config: ServerConfig) {
     this.instance = express()
     this.host = config.host || "0.0.0.0"
     this.port = config.port || 3000
@@ -38,15 +38,15 @@ export class Server {
     this.setup()
   }
 
-  start(): Promise<any> {
+  start (): Promise<any> {
     return new Promise((resolve, reject) => {
       this.server = createServer(this.instance)
       this.server.listen(this.port, this.host, resolve)
     })
   }
 
-  setup() {
-    // this.instance.use(express.static("public"))
+  setup () {
+    this.instance.use("/static", express.static("src/assets"))
     this.instance.use(bodyParser.json())
     this.instance.use(bodyParser.urlencoded({ extended: false }))
     this.instance.use(cookieParser())
@@ -93,7 +93,7 @@ export class Server {
     this.setupRoutes()
   }
 
-  setupRoutes() {
+  setupRoutes () {
     const authMiddleware = (request: express.Request, response, next) => {
       if (request.get("authorization")) {
         try {

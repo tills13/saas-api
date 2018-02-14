@@ -1,6 +1,8 @@
 import { S3 } from "aws-sdk"
 import * as config from "config"
 
+console.log(config.s3)
+
 export const s3 = new S3({
   accessKeyId: config.s3.accessKeyId,
   secretAccessKey: config.s3.secretAccessKey,

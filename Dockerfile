@@ -14,14 +14,15 @@ RUN apk add --update \
     wget \
     libpq \
     postgresql-dev \
-  && yarn && yarn cache clean \
+  && yarn cache clean \
+  && yarn \
+  && npm rebuild bcrypt ----build-from-source \
   && apk del \
     git \
     python \
     build-base \
     wget \
     ca-certificates \
-    libpq \
     postgresql-dev \
   && rm -rf /var/cache/apk/*
 

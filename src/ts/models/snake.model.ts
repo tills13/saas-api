@@ -6,6 +6,7 @@ import { defaultTableConfiguration, FileInterface, GameInterface, UserInterface 
 
 export interface SnakeInterface extends Sequelize.Instance<{}> {
   id: string
+  apiVersion: "2017" | "2018"
   defaultColor: string
   devUrl: string
   head: FileInterface
@@ -15,7 +16,6 @@ export interface SnakeInterface extends Sequelize.Instance<{}> {
   name: string
   url: string
   ownerId: string
-  isLegacy?: boolean
   visibility?: SaaS.Visibility
 
   lastCheckedAt?: Date
@@ -49,6 +49,9 @@ export const Snake = database.define<SnakeInterface, {}>(
       type: Sequelize.UUID,
       primaryKey: true
     },
+    apiVersion: {
+      type: Sequelize.ENUM({ values: ["2017", "2018"] })
+    },
     defaultColor: {
       type: Sequelize.STRING,
       validate: { is: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i }
@@ -76,9 +79,6 @@ export const Snake = database.define<SnakeInterface, {}>(
     lastSuccessfullyCheckedAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW
-    },
-    isLegacy: {
-      type: Sequelize.BOOLEAN
     },
     name: {
       type: Sequelize.STRING

@@ -5,7 +5,7 @@ import {
 } from "graphql"
 import { connectionArgs, connectionDefinitions, globalIdField } from "graphql-relay"
 import { connectionFields, nodeInterface } from "../../../config"
-import { File as FileType, GameConnection, User as UserType } from "../../../types"
+import { APIVersionEnum, File as FileType, GameConnection, User as UserType } from "../../../types"
 import { connection } from "../../../utils"
 import { VisibilityEnum } from "../../enums"
 
@@ -49,8 +49,8 @@ export const Snake = new GraphQLObjectType({
     isBountySnake: {
       type: GraphQLBoolean
     },
-    isLegacy: {
-      type: GraphQLBoolean
+    apiVersion: {
+      type: APIVersionEnum
     },
     lastCheckedAt: {
       type: GraphQLString

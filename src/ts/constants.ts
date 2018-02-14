@@ -17,3 +17,6 @@ export const MEDAL_TIER_ONYX = "TIER_ONYX"
 export const SPAWN_STRATEGY_RANDOM = "RANDOM"
 export const SPAWN_STRATEGY_STATIC = "STATIC"
 export const SPAWN_STRATEGY_DONT_RESPAWN = "DONT_RESPAWN"
+
+export const API_VERSION_2017 = "2017"
+export const API_VERSION_2018 = "2018"

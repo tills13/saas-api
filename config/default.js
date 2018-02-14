@@ -7,17 +7,24 @@ const {
   DB_PASSWORD,
   DB_PORT,
   DB_USERNAME,
+  DOCKER_IP,
   REDIS_DATABASE,
   REDIS_HOST,
   REDIS_PASS,
   S3_ACCESS_KEY,
   S3_BUCKET,
   S3_ENDPOINT,
+  S3_PORT,
   S3_REGION,
   S3_SECRET_KEY,
   SERVER_PORT,
   SERVER_SECRET
 } = process.env
+
+const s3IsDev = S3_PORT != null || /(https?:\/\/127\.0\.0\.1(?::\d+)?|minio)$/.test(S3_ENDPOINT)
+const s3Endpoint = s3IsDev
+  ? `http://0.0.0.0:${ S3_PORT }`
+  : null
 
 module.exports = {
   server: {
@@ -47,10 +54,10 @@ module.exports = {
   s3: {
     accessKeyId: S3_ACCESS_KEY,
     bucket: S3_BUCKET,
-    endpoint: S3_ENDPOINT,
+    endpoint: s3Endpoint,
     region: S3_REGION,
     secretAccessKey: S3_SECRET_KEY,
     /* if we're using minio, use the "classic" S3 path style URLs */
-    forcePathStyle: /https?:\/\/127\.0\.0\.1(?::\d+)?$/.test(S3_ENDPOINT)
+    forcePathStyle: s3IsDev
   }
 }

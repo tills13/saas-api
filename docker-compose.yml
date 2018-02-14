@@ -5,13 +5,13 @@ services:
     image: postgres
     container_name: saas.postgres
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
 
   redis:
     image: redis
     container_name: saas.redis
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
 
   minio:
     image: minio/minio
@@ -21,7 +21,7 @@ services:
       MINIO_ACCESS_KEY: 9ESMOOGV83RDO23UOHJ5
       MINIO_SECRET_KEY: yz/3DF2E1dekuFqqY0HpAGOxxDjCda8KAMwYwah5
     ports:
-      - "9000:9000"
+      - "127.0.0.1:9000:9000"
     volumes:
       - "./uploads:/uploads"
 
@@ -29,8 +29,13 @@ services:
     build: .
     container_name: saas.api
     command: ["yarn", "start"]
+    environment:
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      S3_ENDPOINT: minio
+      S3_PORT: 9000
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     links:
       - postgres
       - redis
