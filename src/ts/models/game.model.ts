@@ -145,5 +145,16 @@ export const Game = database.define<GameInterface, {}>(
       defaultValue: "PRIVATE"
     }
   },
-  defaultTableConfiguration
+  {
+    ...defaultTableConfiguration,
+    scopes: {
+      visibility (currentUserId) {
+        return {
+          where: {
+            $or: [{ creatorId: currentUserId }, { visibility: "PUBLIC" }]
+          }
+        }
+      }
+    }
+  }
 )

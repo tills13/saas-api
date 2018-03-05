@@ -40,5 +40,16 @@ export const BoardConfiguration = database.define<BoardConfigurationInterface, {
       defaultValue: "PUBLIC"
     }
   },
-  defaultTableConfiguration
+  {
+    ...defaultTableConfiguration,
+    scopes: {
+      visibility (currentUserId) {
+        return {
+          where: {
+            $or: [{ creatorId: currentUserId }, { visibility: "PUBLIC" }]
+          }
+        }
+      }
+    }
+  }
 )

@@ -37,7 +37,7 @@ sessionHandler.post("/login", (request, response) => {
     bcrypt.compare(request.body.password, user.password, (err, matches) => {
       if (matches) {
         let secret = config.server.secret
-        let token = sign(<object>{ userId: user.id }, secret)
+        let token = sign(<object> { userId: user.id }, secret)
 
         response.status(200).send({ token })
       } else {
@@ -79,7 +79,7 @@ sessionHandler.post("/register", (request, response) => {
       return user.save()
     })
   }).then((user) => {
-    let token = sign(<object>{ id: user.id }, config.server.secret)
+    let token = sign(<object> { userId: user.id }, config.server.secret)
     response.status(200).send({ token })
   }).catch((err) => {
     logger.error(err)

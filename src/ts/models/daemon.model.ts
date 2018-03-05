@@ -44,6 +44,17 @@ export const Daemon = database.define<DaemonInterface, {}>(
       defaultValue: "PRIVATE"
     }
   },
-  defaultTableConfiguration
+  {
+    ...defaultTableConfiguration,
+    scopes: {
+      visibility (currentUserId) {
+        return {
+          where: {
+            $or: [{ ownerId: currentUserId }, { visibility: "PUBLIC" }]
+          }
+        }
+      }
+    }
+  }
 )
 

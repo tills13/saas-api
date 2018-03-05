@@ -12,12 +12,11 @@ import {
   VisibilityEnum
 } from "../../../types"
 
-import PaginatedListType from "../../objects/paginated_list"
-
+import * as models from "../../../../models"
+import { applyVisibilityScope } from "../../../../utils/models"
 import { nodeInterface } from "../../../config"
 import { connection } from "../../../utils"
-
-import * as models from "../../../../models"
+import PaginatedListType from "../../objects/paginated_list"
 
 export const Application = new GraphQLObjectType({
   name: "Application",
@@ -38,8 +37,11 @@ export const Application = new GraphQLObjectType({
         limit: { type: GraphQLInt },
         after: { type: GraphQLInt }
       },
-      resolve: (context, args) => {
-        return models.BoardConfiguration.findAndCountAll({
+      resolve: (source, args, context, info) => {
+        return applyVisibilityScope(
+          models.BoardConfiguration,
+          context.request.userId
+        ).findAndCountAll({
           offset: args.after,
           limit: args.limit
         }).then(({ rows, count }) => {
@@ -56,8 +58,11 @@ export const Application = new GraphQLObjectType({
         limit: { type: GraphQLInt },
         after: { type: GraphQLInt }
       },
-      resolve: (context, args) => {
-        return models.Daemon.findAndCountAll({
+      resolve: (source, args, context, info) => {
+        return applyVisibilityScope(
+          models.Daemon,
+          context.request.userId
+        ).findAndCountAll({
           offset: args.after,
           limit: args.limit
         }).then(({ rows, count }) => {
@@ -71,7 +76,7 @@ export const Application = new GraphQLObjectType({
     files: {
       type: FileConnection,
       args: connectionArgs,
-      resolve: (context, args) => {
+      resolve: (source, args, context, info) => {
         return connection(models.File, {}, [], null, args)
       }
     },
@@ -81,8 +86,11 @@ export const Application = new GraphQLObjectType({
         limit: { type: GraphQLInt },
         after: { type: GraphQLInt }
       },
-      resolve: (context, args) => {
-        return models.Game.findAndCountAll({
+      resolve: (source, args, context, info) => {
+        return applyVisibilityScope(
+          models.Game,
+          context.request.userId
+        ).findAndCountAll({
           offset: args.after,
           limit: args.limit
         }).then(({ rows, count }) => {
@@ -96,7 +104,7 @@ export const Application = new GraphQLObjectType({
     medals: {
       type: MedalConnection,
       args: connectionArgs,
-      resolve: (context, args) => {
+      resolve: (source, args, context, info) => {
         return connection(models.Medal, {}, [], null, args)
       }
     },
@@ -106,8 +114,11 @@ export const Application = new GraphQLObjectType({
         limit: { type: GraphQLInt },
         after: { type: GraphQLInt }
       },
-      resolve: (context, args) => {
-        return models.Snake.findAndCountAll({
+      resolve: (source, args, context, info) => {
+        return applyVisibilityScope(
+          models.Snake,
+          context.request.userId
+        ).findAndCountAll({
           offset: args.after,
           limit: args.limit
         }).then(({ rows, count }) => {
@@ -121,7 +132,7 @@ export const Application = new GraphQLObjectType({
     users: {
       type: UserConnection,
       args: connectionArgs,
-      resolve: (context, args) => {
+      resolve: (source, args, context, info) => {
         return connection(models.User, {}, [], null, args)
       }
     },
