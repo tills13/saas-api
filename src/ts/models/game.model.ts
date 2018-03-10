@@ -26,6 +26,7 @@ export interface GameInterface extends Sequelize.Instance<{}> {
   createdAt: Date
   completedAt: Date
   devMode: boolean
+  gameType: "TYPE_SCORE" | "TYPE_PLACEMENT" | "TYPE_CUSTOM"
   responseTime: number
   status: SaaS.GameState,
   startedAt: Date
@@ -115,6 +116,14 @@ export const Game = database.define<GameInterface, {}>(
     },
     devMode: {
       type: Sequelize.BOOLEAN
+    },
+    gameType: {
+      type: Sequelize.ENUM(["TYPE_PLACEMENT", "TYPE_SCORE", "TYPE_CUSTOM"]),
+      defaultValue: "TYPE_SCORE"
+    },
+    pinTail: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     responseTime: {
       type: Sequelize.INTEGER,
