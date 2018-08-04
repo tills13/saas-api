@@ -111,16 +111,19 @@ export const Application = new GraphQLObjectType({
     snakes: {
       type: PaginatedListType(Snake),
       args: {
+        after: { type: GraphQLInt },
         limit: { type: GraphQLInt },
-        after: { type: GraphQLInt }
+        search: { type: GraphQLString }
       },
       resolve: (source, args, context, info) => {
         return applyVisibilityScope(
           models.Snake,
           context.request.userId
         ).findAndCountAll({
+          limit: args.limit,
           offset: args.after,
-          limit: args.limit
+          where: args.search ? { name: { $iLike: `%${ args.search }%` } } : null,
+          order: [ [ args.order || "name", args.orderBy || "ASC" ] ]
         }).then(({ rows, count }) => {
           return {
             items: rows,
@@ -144,5 +147,5 @@ export const Application = new GraphQLObjectType({
       }
     }
   }),
-  interfaces: () => [nodeInterface]
+  interfaces: () => [ nodeInterface ]
 })
