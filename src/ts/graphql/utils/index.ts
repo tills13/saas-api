@@ -20,7 +20,7 @@ export function fromCursor (cursor, initial?: number) {
   return parseInt(Buffer.from(cursor, "base64").toString("ascii").split(":")[1], 10)
 }
 
-export function offsetFromArgs ({ after, before, first, last }: ConnectionArguments) {
+export function getOffsetFromArgs ({ after, before, first, last }: ConnectionArguments) {
   if (first && first >= 0) {
     return fromCursor(after, -1) + 1
   } else if (last && last >= 0) {
@@ -30,49 +30,45 @@ export function offsetFromArgs ({ after, before, first, last }: ConnectionArgume
   return null
 }
 
+export const simpleConnection = <T1 = any, T2 = any, T3 = any>(
+  model: Sequelize.Model<T1, T2>,
+  args: ConnectionArguments
+) => connection(model, null, null, null, args)
+
 export function connection<T1 = any, T2 = any, T3 = any>(
   model: Sequelize.Model<T1, T2>,
-  where: Sequelize.WhereOptions<any>,
-  include: Array<Sequelize.Model<any, any> | Sequelize.IncludeOptions>,
-  order: any,
+  where: Sequelize.WhereOptions<any> = {},
+  include: Array<Sequelize.Model<any, any> | Sequelize.IncludeOptions> = [],
+  order: any = null,
   args: ConnectionArguments
 ) {
-  return new Promise<Connection<T3>>((resolve, reject) => {
-    const { after, before, first, last } = args
+  const { after, before, first, last } = args
 
-    const limit = first >= 0 ? first : last >= 0 ? last : null
-    const offset = offsetFromArgs(args)
+  const limit = first >= 0 ? first : last >= 0 ? last : null
+  const offset = getOffsetFromArgs(args)
 
-    const mWhere = {
-      ...where
+  return model.findAndCount({
+    where,
+    include,
+    limit,
+    offset,
+    order,
+    subQuery: false
+  }).then(({ count, rows }) => {
+    const edges = rows.map((value, index) => ({
+      cursor: toCursor({}, args, offset + index),
+      node: value
+    }))
+
+    const firstEdge = edges[0]
+    const lastEdge = edges[edges.length - 1]
+    const pageInfo = {
+      startCursor: firstEdge ? firstEdge.cursor : null,
+      endCursor: lastEdge ? lastEdge.cursor : null,
+      hasPreviousPage: first > 0 ? offset + limit < count : false,
+      hasNextPage: offset > 0
     }
 
-    model.findAndCount({
-      where: mWhere,
-      include,
-      limit,
-      offset,
-      order,
-      subQuery: false
-    }).then((result) => {
-      const edges = result.rows.map((value, index) => ({
-        cursor: toCursor({}, args, offset + index),
-        node: value
-      }))
-
-      const firstEdge = edges[0]
-      const lastEdge = edges[edges.length - 1]
-
-      resolve(<Connection<any>>{
-        edges,
-        count: result.count,
-        pageInfo: {
-          startCursor: firstEdge ? firstEdge.cursor : null,
-          endCursor: lastEdge ? lastEdge.cursor : null,
-          hasPreviousPage: first > 0 ? offset + limit < result.count : false,
-          hasNextPage: offset > 0
-        }
-      })
-    })
+    return <Connection<any>> { count, edges, pageInfo }
   })
 }

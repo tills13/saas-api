@@ -1,1 +1,2 @@
-export * from "./status_enum"
+export * from "./status"
+export * from "./type"

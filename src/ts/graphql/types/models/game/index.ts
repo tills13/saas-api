@@ -8,14 +8,14 @@ import {
 import { connectionArgs, connectionDefinitions, fromGlobalId, globalIdField } from "graphql-relay"
 import { connectionFields, nodeInterface } from "../../../config"
 import {
-  BoardConfiguration as BoardConfigurationType,
-  Daemon as DaemonType,
-  Snake as SnakeType,
-  SnakeConnection,
-  User as UserType
+  BoardConfiguration,
+  Daemon,
+  GameSnakeConnection,
+  Snake,
+  User
 } from "../../../types"
 import { connection } from "../../../utils"
-import { GameStatusEnum, SpawnStrategyEnum, VisibilityEnum } from "../../enums"
+import { GameStatusEnum, GameTypeEnum, SpawnStrategyEnum, VisibilityEnum } from "../../enums"
 
 import * as moment from "moment"
 import * as models from "../../../../models"
@@ -30,7 +30,7 @@ export const Game = new GraphQLObjectType({
       resolve: (game) => game.id
     },
     boardConfiguration: {
-      type: BoardConfigurationType
+      type: BoardConfiguration
     },
     boardFoodCount: {
       type: GraphQLInt
@@ -73,7 +73,7 @@ export const Game = new GraphQLObjectType({
       resolve: (game) => moment(game.createdAt).unix()
     },
     creator: {
-      type: UserType,
+      type: User,
       resolve: (game, args) => {
         return game.getCreator()
       }
@@ -82,7 +82,7 @@ export const Game = new GraphQLObjectType({
       type: GraphQLInt
     },
     daemon: {
-      type: DaemonType,
+      type: Daemon,
       resolve: (game, args) => {
         return game.getDaemon()
       }
@@ -90,29 +90,28 @@ export const Game = new GraphQLObjectType({
     devMode: {
       type: GraphQLBoolean
     },
+    gameType: { type: GameTypeEnum },
     parentGame: {
       type: Game,
       resolve: (game, args) => {
         return game.getParentGame()
       }
     },
+    pinTail: { type: GraphQLBoolean },
     responseTime: {
       type: GraphQLInt
     },
     snakes: {
-      type: SnakeConnection,
+      type: GameSnakeConnection,
       args: connectionArgs,
       resolve: (game, args) => {
-        const include = [
-          {
-            model: models.Game,
-            through: { where: { GameId: game.id } },
-            required: true,
-            as: "games"
-          }
-        ]
-
-        return connection(models.Snake, {}, include, [], args)
+        return connection(
+          models.SnakeGames,
+          { GameId: game.id },
+          [],
+          null,
+          args
+        )
       }
     },
     status: {
@@ -130,18 +129,16 @@ export const Game = new GraphQLObjectType({
     viewerCount: {
       type: GraphQLInt,
       resolve: (game, args) => {
-        console.log(game.id)
-        return redisClient.getAsync(`game:viewer_count:${ game.id }`).then((value) => {
-          console.log(value)
-          return parseInt(value, 10) || 0
-        }).catch(() => 0)
+        return redisClient.getAsync(`game:viewer_count:${ game.id }`)
+          .then((value) => parseInt(value, 10) || 0)
+          .catch(() => 0)
       }
     },
     visibility: {
       type: VisibilityEnum
     },
     winner: {
-      type: SnakeType,
+      type: Snake,
       resolve: (game, args) => {
         return game.getWinner()
       }
@@ -153,4 +150,19 @@ export const Game = new GraphQLObjectType({
 export const { connectionType: GameConnection, edgeType: GameConnectionEdge } = connectionDefinitions({
   nodeType: Game,
   connectionFields: () => connectionFields
+})
+
+export const { connectionType: SnakeGameConnection, edgeType: SnakeGameEdge } = connectionDefinitions({
+  connectionFields: () => connectionFields,
+  edgeFields: () => ({
+    place: {
+      type: GraphQLInt,
+      resolve: ({ node: snakeGame }) => snakeGame.place
+    }
+  }),
+  name: "SnakeGame",
+  nodeType: Game,
+  resolveNode: ({ node: snakeGame }) => {
+    return models.Game.findById(snakeGame.GameId)
+  }
 })

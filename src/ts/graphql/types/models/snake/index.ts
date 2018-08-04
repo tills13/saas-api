@@ -1,12 +1,13 @@
 import {
   GraphQLBoolean,
+  GraphQLInt,
   GraphQLObjectType,
   GraphQLString
 } from "graphql"
-import { connectionArgs, connectionDefinitions, globalIdField } from "graphql-relay"
+import { connectionArgs, connectionDefinitions, connectionFromArray, globalIdField } from "graphql-relay"
 import { connectionFields, nodeInterface } from "../../../config"
-import { APIVersionEnum, File as FileType, GameConnection, User as UserType } from "../../../types"
-import { connection } from "../../../utils"
+import { APIVersionEnum, File as FileType, SnakeGameConnection, User } from "../../../types"
+import { connection, getOffsetFromArgs } from "../../../utils"
 import { VisibilityEnum } from "../../enums"
 
 import * as models from "../../../../models"
@@ -25,19 +26,16 @@ export const Snake = new GraphQLObjectType({
       type: GraphQLString
     },
     games: {
-      type: GameConnection,
+      type: SnakeGameConnection,
       args: connectionArgs,
       resolve: (snake, args) => {
-        const include = [
-          {
-            model: models.Snake,
-            through: { where: { SnakeId: snake.id } },
-            required: true,
-            as: "snakes"
-          }
-        ]
-
-        return connection(models.Game, {}, include, null, args)
+        return connection(
+          models.SnakeGames,
+          { SnakeId: snake.id },
+          [],
+          null,
+          args
+        )
       }
     },
     head: {
@@ -62,10 +60,8 @@ export const Snake = new GraphQLObjectType({
       type: GraphQLString
     },
     owner: {
-      type: UserType,
-      resolve: (snake, args) => {
-        return snake.getOwner()
-      }
+      type: User,
+      resolve: (snake, args) => snake.getOwner()
     },
     url: {
       type: GraphQLString
@@ -78,6 +74,21 @@ export const Snake = new GraphQLObjectType({
 })
 
 export const { connectionType: SnakeConnection, edgeType: SnakeConnectionEdge } = connectionDefinitions({
+  connectionFields: () => connectionFields,
+  nodeType: Snake
+})
+
+export const { connectionType: GameSnakeConnection, edgeType: GameSnakeEdge } = connectionDefinitions({
+  connectionFields: () => connectionFields,
+  edgeFields: () => ({
+    place: {
+      type: GraphQLInt,
+      resolve: ({ node: snakeGame }) => snakeGame.place
+    }
+  }),
+  name: "GameSnake",
   nodeType: Snake,
-  connectionFields: () => connectionFields
+  resolveNode: ({ node: snakeGame }) => {
+    return models.Snake.findById(snakeGame.SnakeId)
+  }
 })
