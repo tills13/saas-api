@@ -1,27 +1,17 @@
 import * as bcrypt from "bcrypt"
 import * as config from "config"
-import * as express from "express"
 import * as uuid from "uuid"
 
 import { Promise } from "es6-promise"
 import { Router } from "express"
 import { sign } from "jsonwebtoken"
-import { logger } from "../../logger"
-import { Medal, PlayerMedals, User, UserInterface } from "../../models"
-import { REGISTERED_MEDAL } from "../../models/medal.model"
-import { anonymous, authenticated } from "./middleware"
+import { logger } from "../logger"
+import { Medal, User, UserInterface } from "../models"
+import { REGISTERED_MEDAL } from "../models/medal.model"
 
-const sessionHandler: Router = Router()
+const apiRouter: Router = Router()
 
-sessionHandler.get("/", authenticated, (request, response) => {
-  User.findById(request.session["user"].id, {
-    include: [{ all: true }]
-  }).then((user) => {
-    response.status(200).send(user)
-  })
-})
-
-sessionHandler.post("/login", (request, response) => {
+apiRouter.post("/login", (request, response) => {
   const usernameOrEmail = request.body.username
 
   User.findOne({
@@ -50,7 +40,7 @@ sessionHandler.post("/login", (request, response) => {
   })
 })
 
-sessionHandler.post("/register", (request, response) => {
+apiRouter.post("/register", (request, response) => {
   // todo: user findOrCreate
   User.findOne({
     where: { username: request.body.username }
@@ -87,11 +77,4 @@ sessionHandler.post("/register", (request, response) => {
   })
 })
 
-sessionHandler.post("/logout", (request, response) => {
-  request.session.destroy(() => {
-    response.clearCookie("token")
-    response.status(200).send()
-  })
-})
-
-export default sessionHandler
+export default apiRouter
