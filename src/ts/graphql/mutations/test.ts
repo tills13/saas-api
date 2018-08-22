@@ -1,7 +1,7 @@
 import { GraphQLString } from "graphql"
 import { mutationWithClientMutationId } from "graphql-relay"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 
 import database from "../../database"
 import * as models from "../../models"

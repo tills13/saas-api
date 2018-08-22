@@ -9,7 +9,6 @@ Not sure how I feel about the name but that's what I landed on ... good enough f
 - [Server](https://www.github.com/tills13/saas-api)
 - [Manager](https://www.github.com/tills13/saas-game-service)
 
-
 ## What is it?
 
 If you know about BattleSnake, you're most of the way there. I've taken a lot of ideas and concepts
@@ -28,12 +27,11 @@ Before first run you'll need:
 - a `.env` file (see `.env.example`)
 
 Before first run:
-1. run `tsc` - `$ ./node_modules/.bin/tsc` - this will build the migrations
-2. run `yarn run migrate`
+`$ yarn build-migrations && yarn migrate`
 
 To start
-1. Install dependencies (`yarn` or `npm install`)
-2. Run `yarn start` or `npm start`
+1. Install dependencies `$ yarn`
+2. Run `$ yarn start`
 
 #### Tech
 

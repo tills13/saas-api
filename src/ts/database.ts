@@ -1,13 +1,13 @@
 import dataloaderSequelize from "dataloader-sequelize"
 
-import * as config from "config"
-import * as cls from "continuation-local-storage"
-import * as Sequelize from "sequelize"
+import config from "config"
+// import * as cls from "continuation-local-storage"
+import Sequelize from "sequelize"
 
 import { logger } from "./logger"
 
-const namespace = cls.createNamespace(`saas/${ Date.now() }`)
-Sequelize.useCLS(namespace)
+// const namespace = cls.createNamespace(`saas/${ Date.now() }`);
+// (Sequelize as any).useCLS(namespace)
 
 export const database = new Sequelize(
   config.database.dbname,

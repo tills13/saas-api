@@ -1,11 +1,7 @@
-import {
-  GraphQLBoolean,
-  GraphQLInt,
-  GraphQLObjectType,
-  GraphQLString
-} from "graphql"
-
+import { GraphQLBoolean, GraphQLInt, GraphQLObjectType, GraphQLString } from "graphql"
 import { connectionArgs, connectionDefinitions, fromGlobalId, globalIdField } from "graphql-relay"
+import moment from "moment"
+
 import { connectionFields, nodeInterface } from "../../../config"
 import {
   BoardConfiguration,
@@ -17,7 +13,6 @@ import {
 import { connection } from "../../../utils"
 import { GameStatusEnum, GameTypeEnum, SpawnStrategyEnum, VisibilityEnum } from "../../enums"
 
-import * as moment from "moment"
 import * as models from "../../../../models"
 import redisClient from "../../../../redis"
 
@@ -144,7 +139,7 @@ export const Game = new GraphQLObjectType({
       }
     },
   }),
-  interfaces: () => [nodeInterface]
+  interfaces: () => [ nodeInterface ]
 })
 
 export const { connectionType: GameConnection, edgeType: GameConnectionEdge } = connectionDefinitions({

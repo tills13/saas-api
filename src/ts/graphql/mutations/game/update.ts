@@ -3,7 +3,7 @@ import { GraphQLNonNull } from "graphql"
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 import { Game, GameUpdateInput } from "../../types"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 
 export const updateGameMutation = mutationWithClientMutationId({

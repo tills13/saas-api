@@ -1,7 +1,5 @@
-import * as Bluebird from "bluebird"
-import * as Sequelize from "sequelize"
-
-import { logger } from "../ts/logger"
+import Bluebird from "bluebird"
+import Sequelize from "sequelize"
 
 export const up = (queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes): Bluebird<any> | Promise<any> => {
   return queryInterface.createTable("Medals", {
@@ -18,7 +16,7 @@ export const up = (queryInterface: Sequelize.QueryInterface, datatypes: Sequeliz
     },
     tier: {
       type: Sequelize.ENUM,
-      values: ["bronze", "silver", "gold", "platinum", "onyx"]
+      values: [ "bronze", "silver", "gold", "platinum", "onyx" ]
     },
     value: {
       type: Sequelize.INTEGER,
@@ -56,12 +54,12 @@ export const up = (queryInterface: Sequelize.QueryInterface, datatypes: Sequeliz
       }
     })
   }).then(() => {
-    return queryInterface.bulkInsert("Medals", [{
+    return queryInterface.bulkInsert("Medals", [ {
       id: "501c681b-4be8-4838-801c-b875450f4594",
       name: "Registered",
       description: "A medal just for showing up...",
       tier: "gold"
-    }])
+    } ])
   })
 }
 

@@ -1,4 +1,4 @@
-import * as Sequelize from "sequelize"
+import Sequelize from "sequelize"
 import database from "../database"
 
 import { Promise } from "es6-promise"
@@ -50,7 +50,7 @@ export const Snake = database.define<SnakeInterface, {}>(
       primaryKey: true
     },
     apiVersion: {
-      type: Sequelize.ENUM({ values: ["2017", "2018"] })
+      type: Sequelize.ENUM({ values: [ "2017", "2018" ] })
     },
     defaultColor: {
       type: Sequelize.STRING,
@@ -88,7 +88,7 @@ export const Snake = database.define<SnakeInterface, {}>(
     },
     visibility: {
       type: Sequelize.ENUM,
-      values: ["PUBLIC", "PRIVATE"],
+      values: [ "PUBLIC", "PRIVATE" ],
       defaultValue: "PRIVATE"
     },
 
@@ -106,7 +106,7 @@ export const Snake = database.define<SnakeInterface, {}>(
       visibility (currentUserId) {
         return {
           where: {
-            $or: [{ ownerId: currentUserId }, { visibility: "PUBLIC" }]
+            $or: [ { ownerId: currentUserId }, { visibility: "PUBLIC" } ]
           }
         }
       }

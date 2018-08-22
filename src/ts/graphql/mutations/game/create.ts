@@ -2,7 +2,7 @@ import { GraphQLNonNull } from "graphql"
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 import { Application, Game, GameInput } from "../../types"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 
 export const createGameMutation = mutationWithClientMutationId({
@@ -14,7 +14,7 @@ export const createGameMutation = mutationWithClientMutationId({
     }
   },
   outputFields: {
-    application: { type: Application, resolve() { return Application } },
+    application: { type: Application, resolve () { return Application } },
     game: { type: Game }
   },
   mutateAndGetPayload: ({ createGameInput }, context, info) => {
@@ -23,7 +23,7 @@ export const createGameMutation = mutationWithClientMutationId({
 
     return models.Game.create({
       id: id || uuid.v4(),
-      creatorId: context.request.userId || process.env.DEV_USER_ID,
+      creatorId: context.userId || process.env.DEV_USER_ID,
       boardConfigurationId: boardConfiguration,
       ...rest
     }).then(async (game) => {

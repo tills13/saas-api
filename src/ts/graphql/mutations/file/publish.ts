@@ -1,13 +1,7 @@
-import { GraphQLID, GraphQLString } from "graphql"
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 
-import * as models from "models"
+import * as models from "../../../models"
 import { File as FileType, FilePublishInput } from "../../types"
-
-import * as config from "config"
-import { getSignedUrl } from "utils"
-import * as uuid from "uuid"
-import s3 from "../../../s3"
 
 export const publishFileMutation = mutationWithClientMutationId({
   name: "PublishFileMutation",
@@ -20,7 +14,7 @@ export const publishFileMutation = mutationWithClientMutationId({
   outputFields: {
     publishedFile: { type: FileType }
   },
-  mutateAndGetPayload: async ({ publishFileMutationInput }, context, info) => {
+  mutateAndGetPayload: async ({ publishFileMutationInput }) => {
     const { fileId } = publishFileMutationInput
     const mFileId = fromGlobalId(fileId).id
 

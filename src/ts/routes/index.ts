@@ -1,10 +1,9 @@
-import * as bcrypt from "bcrypt"
-import * as config from "config"
-import * as uuid from "uuid"
-
-import { Promise } from "es6-promise"
+import bcrypt from "bcrypt"
+import config from "config"
 import { Router } from "express"
 import { sign } from "jsonwebtoken"
+import uuid from "uuid"
+
 import { logger } from "../logger"
 import { Medal, User, UserInterface } from "../models"
 import { REGISTERED_MEDAL } from "../models/medal.model"
@@ -27,7 +26,7 @@ apiRouter.post("/login", (request, response) => {
     bcrypt.compare(request.body.password, user.password, (err, matches) => {
       if (matches) {
         let secret = config.server.secret
-        let token = sign(<object> { userId: user.id }, secret)
+        let token = sign(<object>{ userId: user.id }, secret)
 
         response.status(200).send({ token })
       } else {
@@ -69,7 +68,7 @@ apiRouter.post("/register", (request, response) => {
       return user.save()
     })
   }).then((user) => {
-    let token = sign(<object> { userId: user.id }, config.server.secret)
+    let token = sign(<object>{ userId: user.id }, config.server.secret)
     response.status(200).send({ token })
   }).catch((err) => {
     logger.error(err)

@@ -1,7 +1,7 @@
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 import { Snake, SnakeInput } from "../../types"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 
 export const createSnakeMutation = mutationWithClientMutationId({
@@ -20,7 +20,7 @@ export const createSnakeMutation = mutationWithClientMutationId({
 
     return models.Snake.create({
       id: id || uuid.v4(),
-      ownerId: context.request.userId || process.env.DEV_USER_ID,
+      ownerId: context.userId,
       headId: mHeadId,
       ...rest
     }).then((snake) => {

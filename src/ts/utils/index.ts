@@ -1,6 +1,7 @@
-import * as bcrypt from "bcrypt"
-import * as config from "config"
-import * as models from "models"
+import bcrypt from "bcrypt"
+import config from "config"
+
+import { FileInterface } from "../models"
 import s3 from "../s3"
 
 export function getSignedUrl (key: string, contentType: string) {
@@ -14,7 +15,7 @@ export function getSignedUrl (key: string, contentType: string) {
   })
 }
 
-export function getS3Url (file: models.FileInterface) {
+export function getS3Url (file: FileInterface) {
   return config.s3.forcePathStyle
     ? `${ config.s3.endpoint }/${ file.bucket }/${ file.key }`
     : `http://${ file.bucket }.s3.amazonaws.com/${ file.key }`

@@ -1,7 +1,5 @@
 import { S3 } from "aws-sdk"
-import * as config from "config"
-
-console.log(config.s3)
+import config from "config"
 
 export const s3 = new S3({
   accessKeyId: config.s3.accessKeyId,

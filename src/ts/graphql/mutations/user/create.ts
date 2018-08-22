@@ -2,9 +2,9 @@ import { GraphQLString } from "graphql"
 import { mutationWithClientMutationId } from "graphql-relay"
 import { User as UserType, UserInput } from "../../types"
 
-import * as config from "config"
+import config from "config"
 import { sign } from "jsonwebtoken"
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 import { REGISTERED_MEDAL } from "../../../models"
 import { hashPassword } from "../../../utils"
@@ -27,7 +27,7 @@ export const createUserMutation = mutationWithClientMutationId({
 
     const password = await hashPassword(mPassword)
 
-    const exists = await models.User.findOne({ where: { $or: [{ email }, { username }] } }) !== null
+    const exists = await models.User.findOne({ where: { $or: [ { email }, { username } ] } }) !== null
 
     if (exists) throw new Error("User already exists...")
 

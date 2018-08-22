@@ -40,7 +40,7 @@ export const Application = new GraphQLObjectType({
       resolve: (source, args, context, info) => {
         return applyVisibilityScope(
           models.BoardConfiguration,
-          context.request.userId
+          context.userId
         ).findAndCountAll({
           offset: args.after,
           limit: args.limit
@@ -61,7 +61,7 @@ export const Application = new GraphQLObjectType({
       resolve: (source, args, context, info) => {
         return applyVisibilityScope(
           models.Daemon,
-          context.request.userId
+          context.userId
         ).findAndCountAll({
           offset: args.after,
           limit: args.limit
@@ -89,7 +89,7 @@ export const Application = new GraphQLObjectType({
       resolve: (source, args, context, info) => {
         return applyVisibilityScope(
           models.Game,
-          context.request.userId
+          context.userId
         ).findAndCountAll({
           offset: args.after,
           limit: args.limit
@@ -118,7 +118,7 @@ export const Application = new GraphQLObjectType({
       resolve: (source, args, context, info) => {
         return applyVisibilityScope(
           models.Snake,
-          context.request.userId
+          context.userId
         ).findAndCountAll({
           limit: args.limit,
           offset: args.after,

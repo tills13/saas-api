@@ -1,11 +1,11 @@
 import "./models"
 
-import * as bodyParser from "body-parser"
-import * as config from "config"
-import * as cookieParser from "cookie-parser"
-import * as express from "express"
-import * as graphql from "express-graphql"
-import * as session from "express-session"
+import bodyParser from "body-parser"
+import config from "config"
+import cookieParser from "cookie-parser"
+import express from "express"
+import graphql from "express-graphql"
+import session from "express-session"
 import { repeat, truncate } from "lodash"
 
 import database from "./database"
@@ -86,24 +86,22 @@ export class Server {
   }
 
   setupRoutes () {
-    const authMiddleware = (request: express.Request, response, next) => {
-      if (request.get("authorization")) {
-        try {
-          const token = request.get("authorization")
-          const decoded: any = verify(token, config.server.secret)
+    this.instance.use("/graphql", graphql((request) => {
+      let userId
 
-          request.userId = decoded.userId
-        } catch (err) {
-          logger.info(`invalid token: ${ request.get("authorization") }`)
-        }
+      try {
+        const token = request.get("authorization")
+        userId = verify(token, config.server.secret)
+      } catch (err) {
+        logger.info(err)
       }
 
-      next()
-    }
+      if (!userId && process.env.NODE_ENV === "development") {
+        userId = process.env.DEV_USER_ID
+      }
 
-    this.instance.use("/graphql", authMiddleware, graphql((request) => {
       return {
-        context: { request },
+        context: { userId },
         debug: process.env.NODE_ENV === "development",
         graphiql: process.env.NODE_ENV === "development",
         schema

@@ -1,9 +1,7 @@
-import * as Bluebird from "bluebird"
-import * as Sequelize from "sequelize"
+import Bluebird from "bluebird"
+import Sequelize from "sequelize"
 
-import { logger } from "../ts/logger"
-
-function createGamesTable(queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
+function createGamesTable (queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
   return queryInterface.createTable("Games", {
     id: {
       type: datatypes.UUID,
@@ -39,7 +37,7 @@ function createGamesTable(queryInterface: Sequelize.QueryInterface, datatypes: S
   })
 }
 
-function createSnakesTable(queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
+function createSnakesTable (queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
   return queryInterface.createTable("Snakes", {
     id: {
       type: datatypes.UUID,
@@ -80,7 +78,7 @@ function createSnakesTable(queryInterface: Sequelize.QueryInterface, datatypes: 
   })
 }
 
-function createUsersTable(queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
+function createUsersTable (queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
   return queryInterface.createTable("Users", {
     id: {
       type: datatypes.UUID,
@@ -107,7 +105,7 @@ function createUsersTable(queryInterface: Sequelize.QueryInterface, datatypes: S
   })
 }
 
-function createJoinTables(queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
+function createJoinTables (queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) {
   return Promise.all([
     queryInterface.createTable("SnakeGames", {
       GameId: {

@@ -1,4 +1,4 @@
-import * as Sequelize from "sequelize"
+import Sequelize from "sequelize"
 import database from "../database"
 
 import { defaultTableConfiguration, GameInterface, UserInterface } from "../models"

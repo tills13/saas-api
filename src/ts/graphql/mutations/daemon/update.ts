@@ -1,7 +1,7 @@
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 import { Daemon, UpdateDaemonInput } from "../../types"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 
 export const updateDaemonMutation = mutationWithClientMutationId({

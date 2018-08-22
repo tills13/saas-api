@@ -1,10 +1,10 @@
 import { GraphQLObjectType, GraphQLString, } from "graphql"
 import { connectionDefinitions, globalIdField } from "graphql-relay"
+import GraphQLJSON from "graphql-type-json"
+
 import { User as UserType } from "../"
 import { connectionFields, nodeInterface } from "../../../config"
 import { VisibilityEnum } from "../../enums"
-
-import * as GraphQLJSON from "graphql-type-json"
 
 export const BoardConfiguration = new GraphQLObjectType({
   name: "BoardConfiguration",
@@ -26,7 +26,7 @@ export const BoardConfiguration = new GraphQLObjectType({
       }
     }
   }),
-  interfaces: () => [nodeInterface]
+  interfaces: () => [ nodeInterface ]
 })
 
 export const { connectionType: BoardConfigurationConnection, edgeType: BoardConfigurationConnectionEdge } = connectionDefinitions({

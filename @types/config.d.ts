@@ -44,8 +44,8 @@ declare interface S3Config {
 }
 
 declare module "config" {
-  const database: DatabaseConfig
-  const redis: RedisConfig
-  const s3: S3Config
-  const server: ServerConfig
+  export const database: DatabaseConfig
+  export const redis: RedisConfig
+  export const s3: S3Config
+  export const server: ServerConfig
 }

@@ -19,14 +19,13 @@
     "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "outDir": "build/app",
+    "outDir": "build/migrations",
     "removeComments": true,
     "sourceMap": false,
     "strict": false,
     // "strictNullChecks": true,
     "target": "es6",
-    "typeRoots": ["./node_modules/@types", "./@types"]
+    // "typeRoots": ["./node_modules/@types", "./@types"]
   },
-  // "include": [ "./src/ts/**/*" ],
-  "exclude": [ "./src/migrations" ]
+  "include": [ "./src/migrations" ]
 }

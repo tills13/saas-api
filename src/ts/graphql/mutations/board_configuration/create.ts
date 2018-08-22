@@ -1,7 +1,7 @@
 import { mutationWithClientMutationId } from "graphql-relay"
 import { BoardConfiguration, BoardConfigurationInput } from "../../types"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 
 export const createBoardConfigurationMutation = mutationWithClientMutationId({
@@ -19,7 +19,7 @@ export const createBoardConfigurationMutation = mutationWithClientMutationId({
 
     return models.BoardConfiguration.create({
       id: id || uuid.v4(),
-      creatorId: context.request.userId || process.env.DEV_USER_ID,
+      creatorId: context.userId || process.env.DEV_USER_ID,
       ...rest
     }).then((boardConfiguration) => {
       return { boardConfiguration }

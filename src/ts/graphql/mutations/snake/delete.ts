@@ -2,7 +2,7 @@ import { GraphQLID, GraphQLInputObjectType } from "graphql"
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 import { Application, Snake, UpdateSnakeInput } from "../../types"
 
-import * as uuid from "uuid"
+import uuid from "uuid"
 import * as models from "../../../models"
 
 export const deleteSnakeMutation = mutationWithClientMutationId({

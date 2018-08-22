@@ -1,6 +1,6 @@
 import { Connection, ConnectionArguments } from "graphql-relay"
-import * as hash from "object-hash"
-import * as Sequelize from "sequelize"
+import hash from "object-hash"
+import Sequelize from "sequelize"
 
 export function toCursor (query, args, index) {
   const obj = {
@@ -17,7 +17,7 @@ export function toCursor (query, args, index) {
 
 export function fromCursor (cursor, initial?: number) {
   if (!cursor) return initial
-  return parseInt(Buffer.from(cursor, "base64").toString("ascii").split(":")[1], 10)
+  return parseInt(Buffer.from(cursor, "base64").toString("ascii").split(":")[ 1 ], 10)
 }
 
 export function getOffsetFromArgs ({ after, before, first, last }: ConnectionArguments) {
@@ -30,12 +30,12 @@ export function getOffsetFromArgs ({ after, before, first, last }: ConnectionArg
   return null
 }
 
-export const simpleConnection = <T1 = any, T2 = any, T3 = any>(
+export const simpleConnection = <T1 = any, T2 = any, T3 = any> (
   model: Sequelize.Model<T1, T2>,
   args: ConnectionArguments
 ) => connection(model, null, null, null, args)
 
-export function connection<T1 = any, T2 = any, T3 = any>(
+export function connection<T1 = any, T2 = any, T3 = any> (
   model: Sequelize.Model<T1, T2>,
   where: Sequelize.WhereOptions<any> = {},
   include: Array<Sequelize.Model<any, any> | Sequelize.IncludeOptions> = [],
@@ -60,8 +60,8 @@ export function connection<T1 = any, T2 = any, T3 = any>(
       node: value
     }))
 
-    const firstEdge = edges[0]
-    const lastEdge = edges[edges.length - 1]
+    const firstEdge = edges[ 0 ]
+    const lastEdge = edges[ edges.length - 1 ]
     const pageInfo = {
       startCursor: firstEdge ? firstEdge.cursor : null,
       endCursor: lastEdge ? lastEdge.cursor : null,
@@ -69,6 +69,6 @@ export function connection<T1 = any, T2 = any, T3 = any>(
       hasNextPage: offset > 0
     }
 
-    return <Connection<any>> { count, edges, pageInfo }
+    return <Connection<any>>{ count, edges, pageInfo }
   })
 }

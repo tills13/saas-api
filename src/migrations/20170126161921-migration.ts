@@ -1,13 +1,11 @@
-import * as Bluebird from "bluebird"
-import * as Sequelize from "sequelize"
-
-import { logger } from "../ts/logger"
+import Bluebird from "bluebird"
+import Sequelize from "sequelize"
 
 export const up = (queryInterface: Sequelize.QueryInterface, datatypes: Sequelize.DataTypes) => {
   return Promise.all([
     queryInterface.addColumn("Games", "status", {
       type: datatypes.ENUM,
-      values: ["CREATED", "STARTED", "IN_PROGRESS", "RESTARTED", "STOPPED", "COMPLETED"],
+      values: [ "CREATED", "STARTED", "IN_PROGRESS", "RESTARTED", "STOPPED", "COMPLETED" ],
       defaultValue: "CREATED"
     }),
     queryInterface.addColumn("Games", "startedAt", {

@@ -1,7 +1,7 @@
 import { GraphQLID, GraphQLInputObjectType } from "graphql"
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay"
 
-import { Daemon } from "models"
+import { Daemon } from "../../../models"
 
 export const deleteDaemonMutation = mutationWithClientMutationId({
   name: "DeleteDaemonMutation",
@@ -18,7 +18,7 @@ export const deleteDaemonMutation = mutationWithClientMutationId({
   outputFields: {
     daemonId: { type: GraphQLID }
   },
-  mutateAndGetPayload: async ({ deleteDaemonInput }, context, info) => {
+  mutateAndGetPayload: async ({ deleteDaemonInput }) => {
     const { daemonId } = deleteDaemonInput
     const mDaemonId = fromGlobalId(daemonId).id
 

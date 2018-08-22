@@ -1,6 +1,6 @@
-import * as bluebird from "bluebird"
-import * as config from "config"
-import * as redis from "redis"
+import bluebird from "bluebird"
+import config from "config"
+import redis from "redis"
 
 const defaultConfig = {
   host: config.redis.host || "127.0.0.1",
@@ -8,11 +8,11 @@ const defaultConfig = {
 }
 
 if (config.redis.database) {
-  defaultConfig["db"] = config.redis.database
+  defaultConfig[ "db" ] = config.redis.database
 }
 
 if (config.redis.auth && config.redis.auth.password) {
-  defaultConfig["password"] = config.redis.auth.password
+  defaultConfig[ "password" ] = config.redis.auth.password
 }
 
 export const redisClient = redis.createClient(defaultConfig)
