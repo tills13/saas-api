@@ -1,19 +1,18 @@
-import { GraphQLID, GraphQLString } from "graphql"
-import { mutationWithClientMutationId, toGlobalId } from "graphql-relay"
+import config from "config"
+import { GraphQLString } from "graphql"
+import { mutationWithClientMutationId } from "graphql-relay"
 import uuid from "uuid"
 
 import { File as FileModel } from "../../../models"
-import { File, FileInitializeInput } from "../../types"
-
-import config from "config"
 import { getSignedUrl } from "../../../utils"
+import { File, InitializeFileInput } from "../../types"
 
 export const initializeFileMutation = mutationWithClientMutationId({
   name: "InitializeFileMutation",
   description: "Initialize a file - returning a signed URL for uploading to",
   inputFields: {
-    initializeFileMutationInput: {
-      type: FileInitializeInput
+    initializeFileInput: {
+      type: InitializeFileInput
     }
   },
   outputFields: {
@@ -26,8 +25,8 @@ export const initializeFileMutation = mutationWithClientMutationId({
       resolve: ({ uploadUrl }) => uploadUrl
     }
   },
-  mutateAndGetPayload: ({ initializeFileMutationInput }) => {
-    const { contentType, fileName, uploadType } = initializeFileMutationInput
+  mutateAndGetPayload: ({ initializeFileInput }) => {
+    const { contentType, fileName, uploadType } = initializeFileInput
     const key = uuid.v4()
 
     return FileModel.create({

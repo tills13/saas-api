@@ -1,7 +1,7 @@
 import "./models"
 
 import bodyParser from "body-parser"
-import config from "config"
+import config, { ServerConfig } from "config"
 import cookieParser from "cookie-parser"
 import express from "express"
 import graphql from "express-graphql"
@@ -91,9 +91,10 @@ export class Server {
 
       try {
         const token = request.get("authorization")
-        userId = verify(token, config.server.secret)
+        const tokenData = verify(token, config.server.secret) as any
+        userId = tokenData.userId
       } catch (err) {
-        logger.info(err)
+        logger.info("invalid token", err)
       }
 
       if (!userId && process.env.NODE_ENV === "development") {

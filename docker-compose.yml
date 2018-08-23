@@ -34,9 +34,11 @@ services:
     command: ["yarn", "start"]
     environment:
       DB_HOST: saas.postgres
+      DB_PASSWORD: password
       REDIS_HOST: saas.redis
       S3_ENDPOINT: saas.minio
       S3_PORT: 9000
+      TS_NODE_FILES: "true"
     ports:
       - "127.0.0.1:3000:3000"
     links:

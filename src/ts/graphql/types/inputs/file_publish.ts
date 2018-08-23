@@ -1,21 +1,8 @@
-import {
-  GraphQLBoolean,
-  GraphQLID,
-  GraphQLInputObjectType,
-  GraphQLInt,
-  GraphQLList,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLString
-} from "graphql"
+import { GraphQLID, GraphQLInputObjectTypeConfig, GraphQLNonNull } from "graphql"
 
-import { VisibilityEnum } from "../../types"
-
-export const FilePublishInput = new GraphQLInputObjectType({
-  name: "FilePublishInput",
+export const PublishFileInput: GraphQLInputObjectTypeConfig = {
+  name: "PublishFileInput",
   fields: {
-    fileId: {
-      type: new GraphQLNonNull(GraphQLID)
-    }
+    fileId: { type: new GraphQLNonNull(GraphQLID) }
   }
-})
+}
