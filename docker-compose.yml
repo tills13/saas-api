@@ -37,6 +37,7 @@ services:
       DB_PASSWORD: password
       REDIS_HOST: saas.redis
       S3_ENDPOINT: saas.minio
+      S3_BUCKET: saas-pub-cdn
       S3_PORT: 9000
       TS_NODE_FILES: "true"
     ports:

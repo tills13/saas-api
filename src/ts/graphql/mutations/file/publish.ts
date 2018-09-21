@@ -13,8 +13,7 @@ export const publishFileMutation = mutationWithClientMutationId({
   outputFields: {
     publishedFile: { type: FileType }
   },
-  mutateAndGetPayload: async ({ publishFileInput }) => {
-    const { fileId } = publishFileInput
+  mutateAndGetPayload: async ({ fileId }) => {
     const mFileId = fromGlobalId(fileId).id
 
     const file = await File.findById(mFileId)

@@ -2,10 +2,7 @@ import {
   GraphQLBoolean,
   GraphQLID,
   GraphQLInputObjectType,
-  GraphQLInt,
-  GraphQLList,
   GraphQLNonNull,
-  GraphQLObjectType,
   GraphQLString
 } from "graphql"
 
@@ -15,11 +12,11 @@ export const UpdateSnakeInput = new GraphQLInputObjectType({
   name: "UpdateSnakeInput",
   fields: {
     snakeId: { type: new GraphQLNonNull(GraphQLID) },
-    apiVersion: { type: new GraphQLNonNull(APIVersionEnum) },
+    apiVersion: { type: APIVersionEnum },
     defaultColor: { type: new GraphQLNonNull(GraphQLString) },
     devUrl: { type: GraphQLString },
     headId: { type: new GraphQLNonNull(GraphQLID) },
-    isBountySnake: { type: new GraphQLNonNull(GraphQLBoolean) },
+    isBountySnake: { type: GraphQLBoolean, defaultValue: false },
     bountyDescription: { type: GraphQLString },
     name: { type: new GraphQLNonNull(GraphQLString) },
     url: { type: new GraphQLNonNull(GraphQLString) },

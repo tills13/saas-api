@@ -58,6 +58,7 @@ module.exports = {
     region: S3_REGION,
     secretAccessKey: S3_SECRET_KEY,
     /* if we're using minio, use the "classic" S3 path style URLs */
-    forcePathStyle: s3IsDev
+    forcePathStyle: s3IsDev,
+    sslEnabled: !s3IsDev
   }
 }

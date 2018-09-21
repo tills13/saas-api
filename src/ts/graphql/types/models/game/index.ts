@@ -25,7 +25,10 @@ export const Game = new GraphQLObjectType({
       resolve: (game) => game.id
     },
     boardConfiguration: {
-      type: BoardConfiguration
+      type: BoardConfiguration,
+      resolve (game: models.GameInterface) {
+        return game.getBoardConfiguration()
+      }
     },
     boardFoodCount: {
       type: GraphQLInt

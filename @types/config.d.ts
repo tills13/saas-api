@@ -39,9 +39,10 @@ declare module "config" {
     accessKeyId: string
     bucket?: string
     endpoint: string
+    forcePathStyle: boolean
     region: string
     secretAccessKey: string
-    forcePathStyle: boolean
+    sslEnabled: boolean
   }
 
   export const database: DatabaseConfig
