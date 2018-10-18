@@ -1,4 +1,3 @@
-import "./models"
 
 import bodyParser from "body-parser"
 import config, { ServerConfig } from "config"
@@ -6,16 +5,15 @@ import cookieParser from "cookie-parser"
 import express from "express"
 import graphql from "express-graphql"
 import session from "express-session"
-import { repeat, truncate } from "lodash"
+import { createServer, Server as HttpServer } from "http"
+import { verify } from "jsonwebtoken"
+
+import "./models"
 
 import database from "./database"
-import apiRouter from "./routes"
-
-import { createServer, Server as HttpServer } from "http"
 import { schema } from "./graphql"
 import { logger } from "./logger"
-
-import { verify } from "jsonwebtoken"
+import apiRouter from "./routes"
 
 export class Server {
   host: string
@@ -60,10 +58,9 @@ export class Server {
     }))
 
     this.instance.use((request, response, next) => {
-      const filter = (key, value) => {
-        value = /password/i.test(key) ? repeat("*", value.length) : value
-        value = typeof value === "string" && value.length >= 30 ? truncate(value, { length: 30 }) : value
-
+      function filter (key, value) {
+        value = /password/i.test(key) ? "*****" : value
+        value = value.substring(0, 30)
         return value
       }
 
