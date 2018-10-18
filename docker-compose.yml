@@ -1,24 +1,31 @@
 version: "2"
 
 services:
-  saas.postgres:
+  nginx:
+    image: nginx:latest
+    links: [ api ]
+    ports: [ "8080:80" ]
+    volumes:
+      - ./config/nginx.dev.conf:/etc/nginx/conf.d/default.conf
+
+  postgres:
     image: postgres:9.6-alpine
-    container_name: saas.postgres
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: password
     ports:
       - "127.0.0.1:5432:5432"
 
-  saas.redis:
+  redis:
     image: redis
-    container_name: saas.redis
+    container_name: redis
     ports:
       - "127.0.0.1:6379:6379"
 
-  saas.minio:
+  minio:
     image: minio/minio
     command: ["server", "/uploads"]
-    container_name: saas.minio
+    container_name: minio
     environment:
       MINIO_ACCESS_KEY: 9ESMOOGV83RDO23UOHJ5
       MINIO_SECRET_KEY: yz/3DF2E1dekuFqqY0HpAGOxxDjCda8KAMwYwah5
@@ -28,24 +35,21 @@ services:
     volumes:
       - "./uploads:/uploads"
 
-  saas.api:
+  api:
     build: .
-    container_name: saas.api
-    command: ["yarn", "start"]
+    container_name: api
     environment:
-      DB_HOST: saas.postgres
+      DB_HOST: postgres
       DB_USER: saas
       DB_PASSWORD: password
-      REDIS_HOST: saas.redis
-      S3_ENDPOINT: saas.minio
+      REDIS_HOST: redis
+      S3_ENDPOINT: minio
       S3_BUCKET: saas-pub-cdn
       S3_PORT: 9000
       TS_NODE_FILES: "true"
-    ports:
-      - "127.0.0.1:3000:3000"
     links:
-      - saas.postgres
-      - saas.redis
+      - postgres
+      - redis
     volumes:
       - ".:/code"
       - "/code/node_modules"

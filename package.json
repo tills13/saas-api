@@ -4,6 +4,7 @@
   "description": "SaaS API",
   "main": "src/ts/server.ts",
   "dependencies": {
+    "@types/lodash": "^4.14.117",
     "aws-sdk": "^2.78.0",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.15.2",
