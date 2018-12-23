@@ -45,8 +45,6 @@ Game.belongsToMany(Snake, { as: "snakes", through: SnakeGames })
 User.belongsToMany(Snake, { as: "snakes", through: UserSnakes, foreignKey: "userId", otherKey: "snakeId" })
 User.belongsToMany(Game, { as: "games", through: UserGames, foreignKey: "userId", otherKey: "gameId" })
 
-// database.sync({ force: false })
-
 export * from "./board_configuration.model"
 export * from "./daemon.model"
 export * from "./file.model"

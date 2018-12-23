@@ -59,8 +59,10 @@ export class Server {
 
     this.instance.use((request, response, next) => {
       function filter (key, value) {
+        if (typeof value !== "string") return value
+
         value = /password/i.test(key) ? "*****" : value
-        value = value.substring(0, 30)
+        value = value ? value.substring(0, 30) : ""
         return value
       }
 
