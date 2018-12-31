@@ -58,18 +58,18 @@ export class Server {
     }))
 
     this.instance.use((request, response, next) => {
-      function filter (key, value) {
-        value = /password/i.test(key) ? "*****" : value
-        value = value.substring(0, 30)
-        return value
-      }
+      // function filter (key, value) {
+      //   value = /password/i.test(key) ? "*****" : value
+      //   value = value ? value.substring(0, 30) : ""
+      //   return value
+      // }
 
       logger.info(`${ request.method }\t=> ${ request.url }`)
 
       if ([ "GET", "POST", "PUT", "DELETE", "OPTIONS" ].indexOf(request.method.toUpperCase()) >= 0) {
-        logger.info(`QUERY\t=> ${ JSON.stringify(request.query, filter, 4) }`)
-        logger.info(`BODY\t=> ${ JSON.stringify(request.body, filter, 4) }`)
-        logger.info(`\🍪 \t=> ${ JSON.stringify(request.cookies, filter, 4) }`)
+        logger.info(`QUERY\t=> ${ JSON.stringify(request.query, undefined, 2) }`)
+        logger.info(`BODY\t=> ${ JSON.stringify(request.body, undefined, 2) }`)
+        logger.info(`\🍪 \t=> ${ JSON.stringify(request.cookies, undefined, 2) }`)
       }
 
       if (request.method.toUpperCase() === "OPTIONS") {

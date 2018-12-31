@@ -6,8 +6,7 @@ const {
   DB_NAME,
   DB_PASSWORD,
   DB_PORT,
-  DB_USERNAME,
-  DOCKER_IP,
+  DB_USER,
   REDIS_DATABASE,
   REDIS_HOST,
   REDIS_PASS,
@@ -23,7 +22,7 @@ const {
 
 const s3IsDev = S3_PORT != null || /(https?:\/\/127\.0\.0\.1(?::\d+)?|minio)$/.test(S3_ENDPOINT)
 const s3Endpoint = s3IsDev
-  ? `http://0.0.0.0:${ S3_PORT }`
+  ? `http://0.0.0.0:${S3_PORT}`
   : null
 
 module.exports = {
@@ -36,7 +35,7 @@ module.exports = {
     port: DB_PORT || 5432,
     dbname: DB_NAME,
     auth: {
-      username: DB_USERNAME,
+      username: DB_USER,
       password: DB_PASSWORD
     },
     options: {

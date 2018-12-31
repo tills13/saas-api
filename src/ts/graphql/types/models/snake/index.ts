@@ -1,40 +1,47 @@
-import {
-  GraphQLBoolean,
-  GraphQLInt,
-  GraphQLObjectType,
-  GraphQLString
-} from "graphql"
-import { connectionArgs, connectionDefinitions, connectionFromArray, globalIdField } from "graphql-relay"
+import * as Types from "graphql"
+import { connectionArgs, connectionDefinitions, globalIdField } from "graphql-relay"
+import { WhereOptions } from "sequelize"
+
 import { connectionFields, nodeInterface } from "../../../config"
 import { APIVersionEnum, File as FileType, SnakeGameConnection, User } from "../../../types"
-import { connection, getOffsetFromArgs } from "../../../utils"
+import { connection } from "../../../utils"
 import { VisibilityEnum } from "../../enums"
 
 import * as models from "../../../../models"
 
-export const Snake = new GraphQLObjectType({
+export const Snake = new Types.GraphQLObjectType({
   name: "Snake",
   fields: () => ({
     id: globalIdField("Snake"),
     bountyDescription: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     defaultColor: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     devUrl: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     games: {
       type: SnakeGameConnection,
-      args: connectionArgs,
+      args: {
+        ...connectionArgs,
+        placement: {
+          defaultValue: undefined,
+          type: Types.GraphQLInt
+        }
+      },
       resolve: (snake, args) => {
+        let where: WhereOptions<any> = { SnakeId: snake.id }
+        let include = []
+
+        if (args.placement != undefined) {
+          where.place = { $eq: args.placement }
+        }
+
         return connection(
-          models.SnakeGames,
-          { SnakeId: snake.id },
-          [],
-          null,
-          args
+          models.SnakeGames, where,
+          include, null, args
         )
       }
     },
@@ -45,32 +52,32 @@ export const Snake = new GraphQLObjectType({
       }
     },
     isBountySnake: {
-      type: GraphQLBoolean
+      type: Types.GraphQLBoolean
     },
     apiVersion: {
       type: APIVersionEnum
     },
     lastCheckedAt: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     lastSuccessfullyCheckedAt: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     name: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     owner: {
       type: User,
       resolve: (snake, args) => snake.getOwner()
     },
     url: {
-      type: GraphQLString
+      type: Types.GraphQLString
     },
     visibility: {
       type: VisibilityEnum
     }
   }),
-  interfaces: () => [nodeInterface]
+  interfaces: () => [ nodeInterface ]
 })
 
 export const { connectionType: SnakeConnection, edgeType: SnakeConnectionEdge } = connectionDefinitions({
@@ -82,7 +89,7 @@ export const { connectionType: GameSnakeConnection, edgeType: GameSnakeEdge } = 
   connectionFields: () => connectionFields,
   edgeFields: () => ({
     place: {
-      type: GraphQLInt,
+      type: Types.GraphQLInt,
       resolve: ({ node: snakeGame }) => snakeGame.place
     }
   }),

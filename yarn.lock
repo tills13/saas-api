@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-1.0.0.tgz#2c523da191db7d41c06d17de235335c985effe9b"
   integrity sha1-LFI9oZHbfUHAbRfeI1M1yYXv/ps=
 
+"@types/bluebird@*":
+  version "3.5.25"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.25.tgz#59188b871208092e37767e4b3d80c3b3eaae43bd"
+  integrity sha512-yfhIBix+AIFTmYGtkC0Bi+XGjSkOINykqKvO/Wqdz/DuXlAKK7HmhLAXdPIGsV4xzKcL3ev/zYc4yLNo+OvGaw==
+
 "@types/bluebird@^3.5.8":
   version "3.5.23"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.23.tgz#e805da976b76892b2b2e50eec29e84914c730670"
@@ -34,7 +39,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/continuation-local-storage@^3.2.1":
+"@types/continuation-local-storage@*", "@types/continuation-local-storage@^3.2.1":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@types/continuation-local-storage/-/continuation-local-storage-3.2.1.tgz#a33e0df9dce9b424d1c98fc4fdebd8578dceec7e"
   integrity sha1-oz4N+dzptCTRyY/E/evYV43O7H4=
@@ -110,6 +115,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lodash@*":
+  version "4.14.119"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.119.tgz#be847e5f4bc3e35e46d041c394ead8b603ad8b39"
+  integrity sha512-Z3TNyBL8Vd/M9D9Ms2S3LmFq2sSMzahodD6rCS9V2N44HUMINb75jNkSuwAx7eo2ufqTdfOdtGQpNbieUjPQmw==
+
 "@types/lodash@^4.14.117":
   version "4.14.117"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.117.tgz#695a7f514182771a1e0f4345d189052ee33c8778"
@@ -137,6 +147,16 @@
   dependencies:
     "@types/node" "*"
 
+"@types/sequelize@^4.27.33":
+  version "4.27.33"
+  resolved "https://registry.yarnpkg.com/@types/sequelize/-/sequelize-4.27.33.tgz#1e906565f371c7efbda0bf2bfa322bea4b5bb1a2"
+  integrity sha512-4w36T30hQKtsVj3BWktRauAls+amAkJsjn6EdQBQ5Pq5iiMm2qRgdFsQj/OHYM1LCYtH7eR4/g4ffbmFux1q2A==
+  dependencies:
+    "@types/bluebird" "*"
+    "@types/continuation-local-storage" "*"
+    "@types/lodash" "*"
+    "@types/validator" "*"
+
 "@types/serve-static@*":
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/@types/serve-static/-/serve-static-1.13.2.tgz#f5ac4d7a6420a99a6a45af4719f4dcd8cd907a48"
@@ -158,6 +178,11 @@
   integrity sha512-nmSJ0AL2mZAi68dYb7nKSIJ9YiM68eToP3Ugz66Ou7qkSatIptDM6CvOUmj4epMKWvO9gr9fFBxEEJkromp1Qg==
   dependencies:
     "@types/node" "*"
+
+"@types/validator@*":
+  version "10.9.0"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-10.9.0.tgz#747f36c7ad281da769458ab4c3b8837aee1578b6"
+  integrity sha512-mf0VpXk+NoTmkUmuJCsdwBYxjYZW41amCSzd4t/fABMKl+qGMViwFP0pR7ukFdZRXWI1LIkca3VIbXVBmWZ4kQ==
 
 "@types/winston@^2.2.0":
   version "2.4.4"
@@ -460,20 +485,17 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
+bcrypt-nodejs@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/bcrypt-nodejs/-/bcrypt-nodejs-0.0.3.tgz#c60917f26dc235661566c681061c303c2b28842b"
+  integrity sha1-xgkX8m3CNWYVZsaBBhwwPCsohCs=
+
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz#a4301d389b6a43f9b67ff3ca11a3f6637e360e9e"
   integrity sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
   dependencies:
     tweetnacl "^0.14.3"
-
-bcrypt@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/bcrypt/-/bcrypt-3.0.0.tgz#0cd38983f45143aa5a6122c9660d0b7ec3a33fb0"
-  integrity sha512-gjicxsD4e5U3nH0EqiEb5y+fKpsZ7F52wcnmNfu45nxnolWVAYh7NgbdfilY+5x1v6cLspxmzz4hf+ju2pFxhA==
-  dependencies:
-    nan "2.10.0"
-    node-pre-gyp "0.10.2"
 
 beeper@^1.0.0:
   version "1.1.1"
@@ -3263,7 +3285,7 @@ multipipe@^0.1.2:
   dependencies:
     duplexer2 "0.0.2"
 
-nan@2.10.0, nan@^2.10.0, nan@^2.9.2:
+nan@^2.10.0, nan@^2.9.2:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
   integrity sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==
@@ -3290,7 +3312,7 @@ natives@^1.1.0:
   resolved "https://registry.yarnpkg.com/natives/-/natives-1.1.4.tgz#2f0f224fc9a7dd53407c7667c84cf8dbe773de58"
   integrity sha512-Q29yeg9aFKwhLVdkTAejM/HvYG0Y1Am1+HUkFQGn5k2j8GS+v60TVmZh6nujpEAj/qql+wGUrlryO8bF+b1jEg==
 
-needle@^2.2.0, needle@^2.2.1:
+needle@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.2.tgz#1120ca4c41f2fcc6976fd28a8968afe239929418"
   integrity sha512-mW7W8dKuVYefCpNzE3Z7xUmPI9wSrSL/1qH31YGMxmSOAnjatS3S9Zv3cmiHrhx3Jkp1SrWWBdOFXjfF48Uq3A==
@@ -3326,22 +3348,6 @@ node-gyp@^3.8.0:
     semver "~5.3.0"
     tar "^2.0.0"
     which "1"
-
-node-pre-gyp@0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.2.tgz#e8945c20ef6795a20aac2b44f036eb13cf5146e3"
-  integrity sha512-16lql9QTqs6KsB9fl3neWyZm02KxIKdI9FlJjrB0y7eMTP5Nyz+xalwPbOlw3iw7EejllJPmlJSnY711PLD1ug==
-  dependencies:
-    detect-libc "^1.0.2"
-    mkdirp "^0.5.1"
-    needle "^2.2.0"
-    nopt "^4.0.1"
-    npm-packlist "^1.1.6"
-    npmlog "^4.0.2"
-    rc "^1.2.7"
-    rimraf "^2.6.1"
-    semver "^5.3.0"
-    tar "^4"
 
 node-pre-gyp@^0.10.0:
   version "0.10.3"
